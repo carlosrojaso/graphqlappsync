@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { APIService, CreateTodoInput, DeleteTodoInput } from './API.service';
+import { APIService, CreateTodoInput, DeleteTodoInput, UpdateTodoInput } from './API.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
@@ -17,15 +17,9 @@ export class AppComponent {
     this.updateNotesList();
   }
 
-  save() {
-    const todoItem: CreateTodoInput = {
-      name: 'Task 1',
-      description: 'New Task'
-    };
-
-    this.apiService.CreateTodo(todoItem).then(
+  save(newItem: CreateTodoInput) {
+    this.apiService.CreateTodo(newItem).then(
       (resolve) => {
-        console.log('response >>>', resolve);
         this.updateNotesList();
       }
     ).catch(
@@ -41,6 +35,18 @@ export class AppComponent {
     };
 
     this.apiService.DeleteTodo(itemToDelete).then(
+      (resolve) => {
+        this.updateNotesList();
+      }
+    ).catch(
+      (error) => {
+        console.log('error >>>', error);
+      }
+    );
+  }
+
+  updateNote(itemToUpdate: any) {
+    this.apiService.UpdateTodo(itemToUpdate).then(
       (resolve) => {
         this.updateNotesList();
       }
@@ -69,8 +75,7 @@ export class AppComponent {
     );
   }
 
-  openDialog() {
-
+  openDialog(item?: UpdateTodoInput) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.data = {
@@ -79,12 +84,31 @@ export class AppComponent {
         description: ''
     };
 
-    this.dialog.open(TodoDialogComponent, dialogConfig);
+    if (item) {
+      dialogConfig.data = {
+        id: item.id,
+        name: item.name,
+        description: item.description
+      };
+    }
 
     const dialogRef = this.dialog.open(TodoDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-        data => console.log('Dialog output:', data)
+        (data) => {
+          if (data) {
+            const newItem: CreateTodoInput = {
+              name: data.name,
+              description: data.description
+            };
+
+            if (item) {
+              this.updateNote(data);
+            } else {
+              this.save(newItem);
+            }
+          }
+        }
     );
   }
 }

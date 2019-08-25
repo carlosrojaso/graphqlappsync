@@ -14,8 +14,8 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button (click)="deleteNote(item.id)">DELETE</button>
-    <button mat-button>EDIT</button>
+    <button mat-button (click)="openDialog(item)">EDIT</button>
   </mat-card-actions>
 </mat-card>
-<button mat-fab (click)="openDialog()">+</button>
+<button mat-fab (click)="openDialog()" class="md-fab-bottom-right">+</button>
 <router-outlet></router-outlet>

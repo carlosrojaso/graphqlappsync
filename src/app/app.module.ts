@@ -11,9 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule, MatDialogContent } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
-import { MatFormField, MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { MatFormField, MatFormFieldModule } from '@angular/material';
     MatDialogModule,
     MatFormFieldModule,
     MatDialogModule,
+    MatInputModule,
     ReactiveFormsModule
   ],
   providers: [APIService],

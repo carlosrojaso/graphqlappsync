@@ -19,6 +19,7 @@ export class TodoDialogComponent {
     this.description = description;
 
     this.form = fb.group({
+      id: [id],
       name: [name, Validators.required],
       description: [description, Validators.required]
     });
@@ -26,10 +27,10 @@ export class TodoDialogComponent {
 
   save() {
     this.dialogRef.close(this.form.value);
-}
+  }
 
   close() {
-      this.dialogRef.close();
+    this.dialogRef.close();
   }
 
 }
